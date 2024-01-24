@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Your build steps here
+                sudo apt install git -y 
+                git clone 
             }
         }
         stage('Test') {
