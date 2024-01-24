@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'sudo apt install git -y' 
-                git clone https://github.com/mohan-chandra2626/practice_CIS.git
+                
             }
         }
         stage('Test') {
