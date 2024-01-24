@@ -1,37 +1,29 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
         stage('Install Git') {
+            tools {
+                // Define the Git tool
+                git 'GitTool'
+            }
             steps {
+                // Run the Git installation command
                 script {
-                    // Install Git on the agent
-                    sh 'sudo apt update -y'
-                    sh 'sudo apt install git -y'
-                    
-                    // Verify Git installation
-                    sh 'git --version'
+                    def gitInstalled = isUnix() ? sh(script: 'sudo apt-get update && sudo apt-get install git -y', returnStatus: true) : bat(script: 'choco install git -y', returnStatus: true)
+                    if (gitInstalled != 0) {
+                        error('Failed to install Git')
+                    }
                 }
             }
         }
 
-        // Add more stages for Build, Test, and Deploy as needed
         stage('Build') {
             steps {
                 // Your build steps here
             }
         }
-
-        stage('Test') {
-            steps {
-                // Your test steps here
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Your deployment steps here
-            }
-        }
+        
+        // Add other stages as needed
     }
 }
